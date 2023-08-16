@@ -1,0 +1,7 @@
+.d-flex.flex-wrap .col-xl-3 {
+    flex-basis: calc(25% - 20px); /* Define a largura do card, descontando as margens */
+    margin-right: 20px; /* Espaçamento entre os cards */
+  }
+.panel-body{
+    height: 190px !important;
+}

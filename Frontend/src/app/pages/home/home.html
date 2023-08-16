@@ -1,0 +1,112 @@
+
+<!-- begin page-header -->
+<h1 class="page-header">Lambda3 <small>Challenge Games</small></h1>
+<!-- end page-header -->
+<div class="col-xl-12">
+  <!-- BEGIN panel -->
+  <panel title="Selecionar os Games" *ngIf="showSelectPanel">
+    <div class="text-dark">
+      <div class="row fs-14px">
+        <div class="col-md-12">
+          <div>
+            <span class="semi-bold">Selecione 8 games que você deseja que entrem na competição e depois pressione o botão 
+                Gerar Meu Campeonato para prosseguir
+            </span>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-9">
+          Quantidade de games selecionados: {{ selectedGames.length }}/8
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-primary d-block" (click)="generateWorldCup()" [ngClass]="{ 'disabled': isButtonDisabled }" [disabled]="isButtonDisabled">
+            Gerar Meu Campeonato
+          </button>
+        </div>
+      </div>  
+      <div class="row">
+        <div *ngFor="let year of getKeys(gamesGroupByYear)">
+          <div class="mb-10px fs-10px mt-10px"><b class="text-dark">{{ year }}</b></div>
+          <div class="d-flex flex-wrap">
+            <div class="col-xl-3 col-sm-6" *ngFor="let game of gamesGroupByYear[year]">
+              <div class="card .border-info">
+                <div class="align-content-center">
+      
+                </div>
+                <img class="card-img-top" width="70" height="70" [src]="game.urlImagem" alt="Game Image" />
+                <div class="card-body">
+                  <h4 class="card-title mb-10px">{{ game.titulo }}</h4>
+                  
+                  <label>
+                    <input type="checkbox" (change)="onCheckboxChange(game)" [disabled]="selectedGames.length >= 8 && !game.selected" />
+                    Selecione o jogo
+                  </label>
+                  <p class="card-text text-right">Console: {{ game.id.split('/')[1] }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>                               
+      </div>                    
+    </div>
+
+      <hr class="bg-gray-500">
+      <ng-container outsideBody>
+        <!-- BEGIN hljs-wrapp er -->
+
+        <!-- END hljs-wrapper -->
+      </ng-container>
+  </panel>
+</div>
+
+
+
+<div class="row mb-3" *ngIf="showResultsPanel">
+	<!-- BEGIN col-12 -->
+	<div class="col-xl-12">
+		<!-- BEGIN panel -->
+		<panel title="Resultado do Challenge Games">
+      <div class="row">
+        <div class="col-md-9">
+          &nbsp;
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-primary d-block" (click)="goBack()">
+            Voltar
+          </button>
+        </div>
+      </div>    
+      <ng-container *ngFor="let result of worldCupResults">
+        <div class="d-flex">
+          <ng-container *ngIf="result.won; else lost">
+            <h1 class="h-xs-15px">1º </h1>
+          </ng-container>
+          <ng-template #lost>
+            <h1 class="h-xs-15px">2º </h1>            
+          </ng-template>
+          <a class="w-60px" href="javascript:;">
+            <img width="60" height="60" [src]="result.urlImagem" alt="{{result.titulo}}" class="mw-100 rounded">
+          </a>
+          <div class="ps-3 flex-1">
+            <h5 class="mb-1">
+              <ng-container *ngIf="result.won; else notWinner">
+                O jogo {{ result.titulo }} é o <strong>vencedor</strong>
+              </ng-container>
+              <ng-template #notWinner>
+                {{ result.titulo }}
+              </ng-template>
+            </h5>            
+          </div>
+        </div>
+        <hr class="bg-gray-500">
+        <ng-container outsideBody>
+          <!-- BEGIN hljs-wrapp er -->
+
+          <!-- END hljs-wrapper -->
+        </ng-container>
+      </ng-container>
+		</panel>
+  </div>
+</div>
